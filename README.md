@@ -1,1 +1,2 @@
-# app-code
+# test
+Pruebas automatizadas.
