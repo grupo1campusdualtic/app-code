@@ -1,0 +1,38 @@
+name: Display Environment Variables
+
+on:
+  push:
+    branches:
+      - main
+      - dev
+      - staging
+
+jobs:
+  display-vars:
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        environment: [development, staging, production]
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Set environment variables
+        run: |
+          if [ "${{ matrix.environment }}" == "development" ]; then
+            echo "ENV_NAME=Development" >> $GITHUB_ENV
+            echo "API_URL=https://dev.api.example.com" >> $GITHUB_ENV
+          elif [ "${{ matrix.environment }}" == "staging" ]; then
+            echo "ENV_NAME=Staging" >> $GITHUB_ENV
+            echo "API_URL=https://staging.api.example.com" >> $GITHUB_ENV
+          elif [ "${{ matrix.environment }}" == "production" ]; then
+            echo "ENV_NAME=Production" >> $GITHUB_ENV
+            echo "API_URL=https://api.example.com" >> $GITHUB_ENV
+          fi
+
+      - name: Display environment variables
+        run: |
+          echo "Environment Name: $ENV_NAME"
+          echo "API URL: $API_URL"
