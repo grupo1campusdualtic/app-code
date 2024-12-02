@@ -1,0 +1,24 @@
+name: Mostrar Variables del Environment
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  show-env-vars:
+    runs-on: ubuntu-latest
+
+    environment: production  # Aquí se especifica el environment que usas, como "production"
+
+    steps:
+      # Paso 1: Checkout del código
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      # Paso 2: Mostrar las variables del environment
+      - name: Mostrar variables de entorno del environment
+        run: |
+          echo "Mostrando las variables de entorno del environment"
+          echo "MY_SECRET_VARIABLE: $MY_SECRET_VARIABLE"
+          echo "MY_NON_SECRET_VARIABLE: $MY_NON_SECRET_VARIABLE"
