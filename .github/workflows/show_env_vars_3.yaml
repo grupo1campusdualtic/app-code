@@ -1,4 +1,4 @@
-name: Mostrar Variables Secretas del Environment
+name: Mostrar Variables del Environment
 
 on:
   push:
@@ -9,16 +9,18 @@ jobs:
   show-env-vars:
     runs-on: ubuntu-latest
 
-    environment: production  # El environment a utilizar
+    environment: production  # El environment de donde provienen las variables
 
     steps:
+      # Paso 1: Checkout del código
       - name: Checkout code
         uses: actions/checkout@v2
 
-      - name: Mostrar variables secretas del environment
+      # Paso 2: Definir variables en 'env' y mostrarlas
+      - name: Mostrar variables de entorno
         run: |
-          echo "Mostrando variables secretas"
-          echo "La variable secreta es: $MY_SECRET_VARIABLE"
+          echo "La variable de entorno MY_ENV_VARIABLE es: $MY_ENV_VARIABLE"
         env:
-          MY_SECRET_VARIABLE: ${{ secrets.MY_SECRET_VARIABLE }}
+          MY_ENV_VARIABLE: ${{ env.MY_ENV_VARIABLE }}
+
 
