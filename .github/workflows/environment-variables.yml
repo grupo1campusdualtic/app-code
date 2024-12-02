@@ -1,45 +1,21 @@
-name: Use Environment Variables
-
-on:
-  push:
-    branches:
-      - main
-      - dev
-      - staging
-
+Neusa Antonia Romao 02/12/2024 20:36 • name: GitHub Actions Demo
+run-name: ${{ github.actor }} is testing out GitHub Actions 🚀
+on: [push]
 jobs:
-  use-env-vars:
-    runs-on: ubuntu-latest
-
-    strategy:
-      matrix:
-        environment: [development, staging, production]
-
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v2
-
-      - name: Set environment variables from GitHub environments
-        env:
-          ENV: ${{ matrix.environment }}
-        run: |
-          echo "Environment: $ENV"
-          
-          if [ "$ENV" == "development" ]; then
-            ENV_NAME="${{ secrets.ENV_NAME_DEV }}"
-            API_URL="${{ secrets.API_URL_DEV }}"
-          elif [ "$ENV" == "staging" ]; then
-            ENV_NAME="${{ secrets.ENV_NAME_STG }}"
-            API_URL="${{ secrets.API_URL_STG }}"
-          elif [ "$ENV" == "production" ]; then
-            ENV_NAME="${{ secrets.ENV_NAME_PROD }}"
-            API_URL="${{ secrets.API_URL_PROD }}"
-          fi
-
-          echo "ENV_NAME=$ENV_NAME" >> $GITHUB_ENV
-          echo "API_URL=$API_URL" >> $GITHUB_ENV
-
-      - name: Display environment variables
-        run: |
-          echo "Environment Name: $ENV_NAME"
-          echo "API URL: $API_URL"
+Explore-GitHub-Actions:
+runs-on: ubuntu-latest
+steps:
+- run: echo "🎉 The job was automatically triggered by a ${{ github.event_name }} event."
+- run: echo "🐧 This job is now running on a ${{ runner.os }} server hosted by GitHub!"
+- run: echo "🔎 The name of your branch is ${{ github.ref }} and your repository is ${{ github.repository }}."
+- name: Check out repository code
+uses: actions/checkout@v4
+- run: echo "💡 The ${{ github.repository }} repository has been cloned to the runner."
+- run: echo "🖥️ The workflow is now ready to test your code on the runner."
+- name: List files in the repository
+run: |
+echo "GITHUB_WORKFLOW: $ENV_NAME_PROD"
+echo "GITHUB_RUN_ID: $GITHUB_RUN_ID"
+echo "GITHUB_REPOSITORY: $GITHUB_REPOSITORY"
+ls ${{ github.workspace }}
+- run: echo "🍏 This job's status is ${{ job.status }}."
