@@ -1,4 +1,4 @@
-name: Display Environment Variables
+name: Use Environment Variables
 
 on:
   push:
@@ -8,7 +8,7 @@ on:
       - staging
 
 jobs:
-  display-vars:
+  use-env-vars:
     runs-on: ubuntu-latest
 
     strategy:
@@ -19,18 +19,25 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v2
 
-      - name: Set environment variables
+      - name: Set environment variables from GitHub environments
+        env:
+          ENV: ${{ matrix.environment }}
         run: |
-          if [ "${{ matrix.environment }}" == "development" ]; then
-            echo "ENV_NAME=Development" >> $GITHUB_ENV
-            echo "API_URL=https://dev.api.example.com" >> $GITHUB_ENV
-          elif [ "${{ matrix.environment }}" == "staging" ]; then
-            echo "ENV_NAME=Staging" >> $GITHUB_ENV
-            echo "API_URL=https://staging.api.example.com" >> $GITHUB_ENV
-          elif [ "${{ matrix.environment }}" == "production" ]; then
-            echo "ENV_NAME=Production" >> $GITHUB_ENV
-            echo "API_URL=https://api.example.com" >> $GITHUB_ENV
+          echo "Environment: $ENV"
+          
+          if [ "$ENV" == "development" ]; then
+            ENV_NAME="${{ secrets.ENV_NAME_DEV }}"
+            API_URL="${{ secrets.API_URL_DEV }}"
+          elif [ "$ENV" == "staging" ]; then
+            ENV_NAME="${{ secrets.ENV_NAME_STG }}"
+            API_URL="${{ secrets.API_URL_STG }}"
+          elif [ "$ENV" == "production" ]; then
+            ENV_NAME="${{ secrets.ENV_NAME_PROD }}"
+            API_URL="${{ secrets.API_URL_PROD }}"
           fi
+
+          echo "ENV_NAME=$ENV_NAME" >> $GITHUB_ENV
+          echo "API_URL=$API_URL" >> $GITHUB_ENV
 
       - name: Display environment variables
         run: |
