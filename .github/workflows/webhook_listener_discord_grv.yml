@@ -1,0 +1,29 @@
+name: Notify Discord on Push and Pull Request
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    types:
+      - opened
+      - closed
+
+jobs:
+  notify-discord:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Send notification to Discord
+      run: |
+        # URL del webhook de Discord desde el secreto de GitHub
+        DISCORD_WEBHOOK_URL="${{ secrets.WEBHOOK_DISCORD_GRV }}"
+
+        # Crear un mensaje con la información del push o pull_request
+        MESSAGE="**Nuevo Push en el repositorio app-code**\n\n**Autor**: $GITHUB_ACTOR\n**Commit**: $GITHUB_SHA\n\n[Ver cambios en GitHub](https://github.com/$GITHUB_REPOSITORY/commit/$GITHUB_SHA)"
+        
+        # Enviar el mensaje a Discord con `curl`
+        curl -X POST \
+          -H "Content-Type: application/json" \
+          -d "{\"content\": \"$MESSAGE\"}" \
+          $DISCORD_WEBHOOK_URL

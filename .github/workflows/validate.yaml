@@ -28,4 +28,5 @@ jobs:
           echo "GITHUB_REPOSITORY: $GITHUB_REPOSITORY"
           ls ${{ github.workspace }}
           
-      - run: echo "🍏 This job's status is ${{ job.status }}."
+      - run: echo "🍏 This job's status is ${{ job.status }}."dir
+      
