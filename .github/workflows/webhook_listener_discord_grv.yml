@@ -26,5 +26,4 @@ jobs:
         curl -X POST \
           -H "Content-Type: application/json" \
           -d "{\"content\": \"$MESSAGE\"}" \
-          $DISCORD_WEBHOOK_URLgit add .
-          
+          $DISCORD_WEBHOOK_URL
